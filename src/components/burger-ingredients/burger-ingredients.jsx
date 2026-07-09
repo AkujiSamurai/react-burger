@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { CustomScroll } from 'react-custom-scroll';
 
 import { IngredientDetails } from '@/components/ingredient-details/ingredient-details';
+import { useModal } from '@/hooks/useModal';
 
 import { IngredientsList } from '../ingredients-list/ingredients-list';
 import { Modal } from '../modal/modal';
@@ -10,14 +11,12 @@ import { Modal } from '../modal/modal';
 import styles from './burger-ingredients.module.css';
 
 export const BurgerIngredients = () => {
+  const { isModalOpen, openModal, closeModal } = useModal();
   const [selectedIngredient, setSelectedIngredient] = useState(null);
 
   const handleOpenModal = (item) => {
+    openModal();
     setSelectedIngredient(item);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedIngredient(null);
   };
 
   return (
@@ -58,8 +57,8 @@ export const BurgerIngredients = () => {
         <IngredientsList title="Соусы" type="sauce" onItemClick={handleOpenModal} />
         <IngredientsList title="Начинки" type="main" onItemClick={handleOpenModal} />
       </CustomScroll>
-      {selectedIngredient && (
-        <Modal title="Детали ингредиента" onClose={handleCloseModal}>
+      {isModalOpen && (
+        <Modal title="Детали ингредиента" onClose={closeModal}>
           <IngredientDetails item={selectedIngredient} />
         </Modal>
       )}

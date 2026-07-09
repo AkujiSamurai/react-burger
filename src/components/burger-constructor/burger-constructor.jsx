@@ -4,10 +4,11 @@ import {
   CurrencyIcon,
   DragIcon,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useMemo } from 'react';
 import { CustomScroll } from 'react-custom-scroll';
 
 import { IngredientsContext } from '@/context/ingredients-context';
+import { useModal } from '@/hooks/useModal';
 
 import { Modal } from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
@@ -16,7 +17,7 @@ import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = () => {
   const { ingredientsList } = useContext(IngredientsContext);
-  const [showModal, setShowModal] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   const ingredientBun = Array.isArray(ingredientsList)
     ? ingredientsList.find((item) => item.type === 'bun' && item.__v === 1)
@@ -96,20 +97,14 @@ export const BurgerConstructor = () => {
               <span className="pr-1">{totalPrice}</span>
               <CurrencyIcon />
             </div>
-            <Button
-              onClick={() => {
-                setShowModal(true);
-              }}
-              size="medium"
-              type="primary"
-            >
+            <Button onClick={openModal} size="medium" type="primary">
               Оформить заказ
             </Button>
           </div>
         </>
       )}
-      {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
+      {isModalOpen && (
+        <Modal onClose={closeModal}>
           <OrderDetails />
         </Modal>
       )}
