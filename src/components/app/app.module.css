@@ -21,3 +21,8 @@
   margin: 0 auto;
   overflow: hidden;
 }
+
+.error {
+  color: red;
+  text-align: center;
+}

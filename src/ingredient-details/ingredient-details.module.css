@@ -1,0 +1,14 @@
+.info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.modal {
+  text-align: center;
+}
+
+.img {
+  height: 240px;
+}
