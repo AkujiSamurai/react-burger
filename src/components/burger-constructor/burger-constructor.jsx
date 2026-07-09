@@ -9,6 +9,7 @@ import { CustomScroll } from 'react-custom-scroll';
 
 import { IngredientsContext } from '@/context/ingredients-context';
 
+import { Modal } from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
 
 import styles from './burger-constructor.module.css';
@@ -107,7 +108,11 @@ export const BurgerConstructor = () => {
           </div>
         </>
       )}
-      {showModal && <OrderDetails onClose={() => setShowModal(false)} />}
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)}>
+          <OrderDetails />
+        </Modal>
+      )}
     </section>
   );
 };

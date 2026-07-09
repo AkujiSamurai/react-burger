@@ -21,14 +21,16 @@ export const Modal = ({ children, onClose, title }) => {
     return () => {
       document.removeEventListener('keydown', handleEsc);
     };
-  });
+  }, [onClose]);
 
   return createPortal(
     <>
       <ModalOverlay onClose={onClose} />
       <div className={styles.modal}>
         <div className={`${styles.header} mt-15 ml-10 mr-10`}>
-          {title && <h2 className="text text_type_main-large">{title}</h2>}
+          {title && (
+            <h2 className={`${styles.title} text text_type_main-large`}>{title}</h2>
+          )}
           <button className={`${styles.close_button}`} onClick={onClose}>
             <CloseIcon />
           </button>

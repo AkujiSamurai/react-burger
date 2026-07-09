@@ -2,9 +2,10 @@ import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { CustomScroll } from 'react-custom-scroll';
 
-import { IngredientDetails } from '@/ingredient-details/ingredient-details';
+import { IngredientDetails } from '@/components/ingredient-details/ingredient-details';
 
 import { IngredientsList } from '../ingredients-list/ingredients-list';
+import { Modal } from '../modal/modal';
 
 import styles from './burger-ingredients.module.css';
 
@@ -58,7 +59,9 @@ export const BurgerIngredients = () => {
         <IngredientsList title="Начинки" type="main" onItemClick={handleOpenModal} />
       </CustomScroll>
       {selectedIngredient && (
-        <IngredientDetails item={selectedIngredient} onClose={handleCloseModal} />
+        <Modal title="Детали ингредиента" onClose={handleCloseModal}>
+          <IngredientDetails item={selectedIngredient} />
+        </Modal>
       )}
     </section>
   );

@@ -49,7 +49,7 @@ export const IngredientsList = ({ title, type, onItemClick }) => {
               onClick={() => onItemClick(item)}
             >
               {item.__v > 0 && <Counter count={item.__v} size="default" />}
-              <img src={item.image} className="ml-4 mr-4" />
+              <img src={item.image} alt={item.name} className="ml-4 mr-4" />
               <div
                 className={`mt-1 mb-1 ${styles.price}`}
                 onClick={(e) => handleClickBuy(item, e)}
