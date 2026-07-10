@@ -2,6 +2,12 @@ body {
   margin: 0;
 }
 
+.rcs-inner-handle {
+  width: 8px !important;
+  background-color: #8585ad !important;
+  border-radius: 0 !important;
+}
+
 /* Fix for scrollbar */
 
 @supports (scrollbar-color: auto) {

@@ -1,0 +1,27 @@
+.ingredients {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 2rem;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  list-style-type: none;
+  cursor: pointer;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+}
+
+.ingredient {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.name {
+  margin-top: 0;
+}
