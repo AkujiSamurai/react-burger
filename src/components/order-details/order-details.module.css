@@ -12,3 +12,8 @@
     0 0 8px #3333ff40,
     0 0 16px #3333ff40;
 }
+
+.error {
+  color: red;
+  text-align: center;
+}

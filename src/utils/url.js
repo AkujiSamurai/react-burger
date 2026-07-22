@@ -1,1 +1,1 @@
-export const url = 'https://new-stellarburgers.education-services.ru/api/ingredients';
+export const url = 'https://new-stellarburgers.education-services.ru/api';
