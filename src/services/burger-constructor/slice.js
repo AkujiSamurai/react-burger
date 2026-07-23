@@ -12,9 +12,14 @@ export const burgerConstructorSlice = createSlice({
     addBun: (state, action) => {
       state.bun = action.payload;
     },
-    addIngredient: (state, action) => {
-      const ingredient = { ...action.payload, id: nanoid() };
-      state.ingredients.push(ingredient);
+    addIngredient: {
+      reducer: (state, action) => {
+        state.ingredients.push(action.payload);
+      },
+      prepare: (item) => {
+        const id = nanoid();
+        return { payload: { ...item, id } };
+      },
     },
     deleteIngredient: (state, action) => {
       state.ingredients = state.ingredients.filter((item) => item.id !== action.payload);

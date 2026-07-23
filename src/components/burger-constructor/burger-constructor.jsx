@@ -128,7 +128,7 @@ export const BurgerConstructor = () => {
           <span className="pr-1">{totalPrice}</span>
           <CurrencyIcon />
         </div>
-        <Button onClick={handleCreateOrder} size="medium" type="primary">
+        <Button disabled={!bun} onClick={handleCreateOrder} size="medium" type="primary">
           Оформить заказ
         </Button>
       </div>
