@@ -1,12 +1,32 @@
+import { Preloader } from '@krgaa/react-developer-burger-ui-components';
+import { useSelector } from 'react-redux';
+
 import done from '../../assets/images/done.svg';
 
 import styles from './order-details.module.css';
 
 export const OrderDetails = () => {
+  const { orderNumber, isLoading, isError } = useSelector((state) => state.order);
+
+  if (isLoading) {
+    return (
+      <div className="mb-20">
+        <Preloader />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className={`${styles.error} mb-20`}>
+        <p className="text text_type_main-large">Ошибка, попробуйте позже</p>
+      </div>
+    );
+  }
   return (
     <div className={styles.info}>
       <p className={`${styles.order_id} text text_type_digits-large mt-25 mb-8`}>
-        034536
+        {orderNumber}
       </p>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
       <img className={styles.image} alt="done" src={done} />

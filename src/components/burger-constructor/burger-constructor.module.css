@@ -27,9 +27,37 @@
   padding-left: 0;
 }
 
-.scroll_item {
+.constructor_top {
   display: flex;
+  justify-content: center;
   align-items: center;
-  list-style: none;
-  cursor: pointer;
+  width: 536px;
+  height: 80px;
+  background-color: #1c1c21;
+  border-radius: 88px 88px 40px 40px;
+}
+
+.constructor_bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 536px;
+  height: 80px;
+  background-color: #1c1c21;
+  border-radius: 40px 40px 88px 88px;
+}
+
+.constructor_main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 536px;
+  height: 80px;
+  background-color: #1c1c21;
+  border-radius: 40px;
+}
+
+.hover {
+  box-sizing: border-box;
+  border: 2px solid blue;
 }
