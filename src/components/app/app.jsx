@@ -1,23 +1,54 @@
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
+import { useGetUserQuery } from '@/api/api';
+import { FeedPage } from '@/pages/feed-page/feed-page';
+import { ForgotPasswordPage } from '@/pages/forgot-password-page/forgot-password-page';
+import { Home } from '@/pages/home/home';
+import { LoginPage } from '@/pages/login-page/login-page';
+import { NotFoundPage } from '@/pages/not-found-page/not-found-page';
+import { ProfileLayout } from '@/pages/profile-layout/profile-layout';
+import { ProfileOrderPage } from '@/pages/profile-order-page/profile-order-page';
+import { ProfilePage } from '@/pages/profile/profile';
+import { RegisterPage } from '@/pages/register-page/register-page';
+import { ResetPasswordPage } from '@/pages/reset-password-page/reset-password-page';
+import { clearIngredientSelected } from '@/services/ingredient-selected/slice';
 import { loadIngredients } from '@/services/ingredients/actions';
+import { setAuthChecked } from '@/services/user/slice';
+import { isTokenExists } from '@/utils/token';
 import { AppHeader } from '@components/app-header/app-header';
-import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
-import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
+
+import { IngredientDetails } from '../ingredient-details/ingredient-details';
+import { Modal } from '../modal/modal';
+import { ProtectedResetRoute } from '../protected-reset-route/protected-reset-route';
+import { ProtectedRoute } from '../protected-route/protected-route';
 
 import styles from './app.module.css';
 
 export const App = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
-  const { isLoading, isError } = useSelector((state) => state.ingredients);
+  const navigate = useNavigate();
+  const { isLoading } = useGetUserQuery(undefined, { skip: !isTokenExists() });
+  const { isLoadingIngrediens, isError } = useSelector((state) => state.ingredients);
+  const backgroundLocation = location.state?.backgroundLocation;
 
   useEffect(() => {
     dispatch(loadIngredients());
   }, []);
+
+  useEffect(() => {
+    if (!isTokenExists()) {
+      dispatch(setAuthChecked());
+    }
+  });
+
+  const handleCloseModal = () => {
+    dispatch(clearIngredientSelected());
+    navigate('/');
+  };
 
   if (isError) {
     return (
@@ -30,19 +61,52 @@ export const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      {isLoading ? (
+      {isLoadingIngrediens || isLoading ? (
         <Preloader />
       ) : (
         <>
-          <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
-            Соберите бургер
-          </h1>
-          <main className={`${styles.main} pl-5 pr-5`}>
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </DndProvider>
-          </main>
+          <Routes location={backgroundLocation || location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/ingredient/:id" element={<IngredientDetails />} />
+            <Route
+              path="/register"
+              element={<ProtectedRoute component={<RegisterPage />} onlyUnAuth />}
+            />
+            <Route
+              path="/login"
+              element={<ProtectedRoute component={<LoginPage />} onlyUnAuth />}
+            />
+            <Route
+              path="/forgot-password"
+              element={<ProtectedRoute component={<ForgotPasswordPage />} onlyUnAuth />}
+            />
+            <Route
+              path="/reset-password"
+              element={<ProtectedResetRoute component={<ResetPasswordPage />} />}
+            />
+            <Route
+              path="/profile"
+              element={<ProtectedRoute component={<ProfileLayout />} />}
+            >
+              <Route index element={<ProfilePage />} />
+              <Route path="orders" element={<ProfileOrderPage />} />
+            </Route>
+            <Route path="/feed" element={<FeedPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+
+          {backgroundLocation && (
+            <Routes>
+              <Route
+                path="/ingredient/:id"
+                element={
+                  <Modal onClose={handleCloseModal}>
+                    <IngredientDetails />
+                  </Modal>
+                }
+              />
+            </Routes>
+          )}
         </>
       )}
     </div>

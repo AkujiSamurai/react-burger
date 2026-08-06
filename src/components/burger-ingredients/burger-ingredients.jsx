@@ -1,25 +1,16 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useRef, useState } from 'react';
 import { CustomScroll } from 'react-custom-scroll';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { IngredientDetails } from '@/components/ingredient-details/ingredient-details';
-import { useModal } from '@/hooks/useModal';
-import {
-  clearIngredientSelected,
-  getIngredientSelected,
-  setIngredientSelected,
-} from '@/services/ingredient-selected/slice';
+import { setIngredientSelected } from '@/services/ingredient-selected/slice';
 
 import { IngredientsList } from '../ingredients-list/ingredients-list';
-import { Modal } from '../modal/modal';
 
 import styles from './burger-ingredients.module.css';
 
 export const BurgerIngredients = () => {
   const dispatch = useDispatch();
-  const { isModalOpen, openModal, closeModal } = useModal();
-  const selectedIngredient = useSelector(getIngredientSelected);
   const [activeTab, setActiveTab] = useState('bun');
 
   const wrapperRef = useRef(null);
@@ -29,13 +20,7 @@ export const BurgerIngredients = () => {
   const sauceRef = useRef(null);
 
   const handleOpenModal = (item) => {
-    openModal();
     dispatch(setIngredientSelected(item));
-  };
-
-  const handleCloseModal = () => {
-    closeModal();
-    dispatch(clearIngredientSelected());
   };
 
   const updateActiveTab = () => {
@@ -122,11 +107,6 @@ export const BurgerIngredients = () => {
           onItemClick={handleOpenModal}
         />
       </CustomScroll>
-      {isModalOpen && (
-        <Modal title="Детали ингредиента" onClose={handleCloseModal}>
-          <IngredientDetails item={selectedIngredient} />
-        </Modal>
-      )}
     </section>
   );
 };

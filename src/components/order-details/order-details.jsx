@@ -10,7 +10,7 @@ export const OrderDetails = () => {
 
   if (isLoading) {
     return (
-      <div className="mb-20">
+      <div className="m-20">
         <Preloader />
       </div>
     );

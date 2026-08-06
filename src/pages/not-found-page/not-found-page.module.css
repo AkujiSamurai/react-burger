@@ -1,0 +1,11 @@
+.not_found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.link {
+  text-decoration: none;
+}
