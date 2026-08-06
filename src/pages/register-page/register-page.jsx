@@ -52,7 +52,11 @@ export const RegisterPage = () => {
     if (validateForm()) {
       console.log(values);
       await register(values).unwrap();
-      navigate(from);
+      navigate(from, {
+        state: {
+          ...location.state,
+        },
+      });
     }
   };
 

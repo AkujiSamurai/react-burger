@@ -45,7 +45,11 @@ export const LoginPage = () => {
     e.preventDefault();
     if (validateForm()) {
       await login(values).unwrap();
-      navigate(from);
+      navigate(from, {
+        state: {
+          ...location.state,
+        },
+      });
     }
   };
 

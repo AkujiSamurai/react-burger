@@ -104,21 +104,25 @@ export const ProfilePage = () => {
           errorText={errorsForm.password}
         />
       </span>
-      {isEdit && (
-        <div className={styles.buttons}>
-          <Button
-            size="medium"
-            type="secondary"
-            disabled={isLoading}
-            onClick={handleCansel}
-          >
-            Отменить
-          </Button>
-          <Button size="medium" htmlType="submit" disabled={isLoading}>
-            Сохранить
-          </Button>
-        </div>
-      )}
+
+      <div
+        className={styles.buttons}
+        style={{ visibility: isEdit ? 'visible' : 'hidden' }}
+      >
+        <Button
+          size="medium"
+          type="secondary"
+          disabled={isLoading}
+          htmlType="button"
+          onClick={handleCansel}
+        >
+          Отменить
+        </Button>
+        <Button size="medium" htmlType="submit" disabled={isLoading}>
+          Сохранить
+        </Button>
+      </div>
+
       {error && (
         <div className={`${styles.error} text text_type_main-medium`}>
           Ошибка редактирования

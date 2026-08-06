@@ -32,7 +32,9 @@ export const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading } = useGetUserQuery(undefined, { skip: !isTokenExists() });
-  const { isLoadingIngrediens, isError } = useSelector((state) => state.ingredients);
+  const { isLoading: isLoadingIngredients, isError } = useSelector(
+    (state) => state.ingredients
+  );
   const backgroundLocation = location.state?.backgroundLocation;
 
   useEffect(() => {
@@ -43,7 +45,7 @@ export const App = () => {
     if (!isTokenExists()) {
       dispatch(setAuthChecked());
     }
-  });
+  }, [dispatch]);
 
   const handleCloseModal = () => {
     dispatch(clearIngredientSelected());
@@ -61,7 +63,7 @@ export const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      {isLoadingIngrediens || isLoading ? (
+      {isLoadingIngredients || isLoading ? (
         <Preloader />
       ) : (
         <>
