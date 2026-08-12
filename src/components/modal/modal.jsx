@@ -6,7 +6,7 @@ import { ModalOverlay } from '../modal-overlay/modal-overlay';
 
 import styles from './modal.module.css';
 
-export const Modal = ({ children, onClose, title }) => {
+export const Modal = ({ children, onClose }) => {
   const modalRoot = document.getElementById('modal');
 
   useEffect(() => {
@@ -27,14 +27,9 @@ export const Modal = ({ children, onClose, title }) => {
     <>
       <ModalOverlay onClose={onClose} />
       <div className={styles.modal}>
-        <div className={`${styles.header} mt-15 ml-10 mr-10`}>
-          {title && (
-            <h2 className={`${styles.title} text text_type_main-large`}>{title}</h2>
-          )}
-          <button className={`${styles.close_button}`} onClick={onClose}>
-            <CloseIcon />
-          </button>
-        </div>
+        <button className={`${styles.close_button}`} onClick={onClose}>
+          <CloseIcon />
+        </button>
 
         <div>{children}</div>
       </div>

@@ -1,0 +1,39 @@
+.profileLayout {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  margin-left: -380px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  color: #8585ad;
+  text-decoration: none;
+}
+
+.link_active {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  color: #f2f2f3;
+  text-decoration: none;
+}
+
+.outlet {
+  width: 480px;
+}
+
+.error {
+  color: red;
+}
