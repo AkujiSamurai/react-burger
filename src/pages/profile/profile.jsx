@@ -3,73 +3,38 @@ import {
   Input,
   PasswordInput,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useEditUserMutation } from '@/api/api';
+import { useFormAndValidation } from '@/hooks/useFormAndValidation';
 import { getUser } from '@/services/user/slice';
 
 import styles from './profile.module.css';
 
 export const ProfilePage = () => {
   const user = useSelector(getUser);
-
-  const [editUser, setEditUser] = useState({
-    name: user.name,
-    email: user.email,
-    password: '',
-  });
-  const [errorsForm, setErrorsForm] = useState({ name: '', email: '', password: '' });
+  const initialState = { name: user.name, email: user.email, password: '' };
+  const { values, handleChange, isValid, setValues } =
+    useFormAndValidation(initialState);
   const [edit, { isLoading, error }] = useEditUserMutation();
-
   const isEdit =
-    editUser.name !== user.name ||
-    editUser.email !== user.email ||
-    editUser.password !== '';
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditUser((prev) => ({ ...prev, [name]: value }));
-    setErrorsForm((prev) => ({ ...prev, [name]: '' }));
-  };
-
-  const validateForm = () => {
-    const newErrors = { name: '', email: '', password: '' };
-
-    if (editUser.name === '') {
-      newErrors.name = 'Поле не может быть пустым';
-    }
-
-    if (editUser.email === '') {
-      newErrors.email = 'Поле не может быть пустым';
-    } else {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(editUser.email)) {
-        newErrors.email = 'Введите корректный email';
-      }
-    }
-
-    if (editUser.password !== '' && editUser.password.length < 6) {
-      newErrors.password = 'Пароль слишком короткий';
-    }
-
-    setErrorsForm(newErrors);
-
-    const notErrors =
-      newErrors.name === '' && newErrors.email === '' && newErrors.password === '';
-    return notErrors;
-  };
+    values.name !== user.name || values.email !== user.email || values.password !== '';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      await edit(editUser).unwrap();
+    if (isValid) {
+      await edit(values).unwrap();
     }
   };
 
   const handleCansel = () => {
-    setEditUser({ name: user.name, email: user.email, password: '' });
+    setValues({ name: user.name, email: user.email, password: '' });
   };
+
+  useEffect(() => {
+    setValues({ name: user.name, email: user.email, password: '' });
+  }, [user]);
 
   return (
     <form className={styles.profile} onSubmit={handleSubmit}>
@@ -78,10 +43,10 @@ export const ProfilePage = () => {
           icon="EditIcon"
           placeholder="Имя"
           type="text"
-          value={editUser.name}
+          value={values.name}
           onChange={handleChange}
           name="name"
-          errorText={errorsForm.name}
+          required
         />
       </span>
       <span className="mb-6">
@@ -89,19 +54,20 @@ export const ProfilePage = () => {
           icon="EditIcon"
           placeholder="Логин"
           type="email"
-          value={editUser.email}
+          value={values.email}
           onChange={handleChange}
           name="email"
-          errorText={errorsForm.email}
+          required
         />
       </span>
       <span className="mb-6">
         <PasswordInput
           icon="EditIcon"
           name="password"
-          value={editUser.password}
+          value={values.password}
           onChange={handleChange}
-          errorText={errorsForm.password}
+          minLength={6}
+          required
         />
       </span>
 

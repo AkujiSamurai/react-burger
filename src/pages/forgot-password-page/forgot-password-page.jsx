@@ -1,35 +1,21 @@
 import { Button, Input } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useForgotPasswordMutation } from '@/api/api';
+import { useFormAndValidation } from '@/hooks/useFormAndValidation';
 
 import styles from './forgot-password-page.module.css';
 
 export const ForgotPasswordPage = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState();
-  const [isError, setIsError] = useState();
+  const { values, handleChange, isValid, resetForm } = useFormAndValidation();
   const [forgotPassword, { isLoading, error }] = useForgotPasswordMutation();
-
-  const validateEmail = () => {
-    let newError = '';
-    if (email === '') {
-      newError = 'Обязательное поле';
-    } else {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        newError = 'Введите корректный email';
-      }
-    }
-    setIsError(newError);
-    return newError === '';
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateEmail()) {
-      await forgotPassword({ email: email }).unwrap();
+    if (isValid) {
+      await forgotPassword({ email: values.email }).unwrap();
+      resetForm();
       localStorage.setItem('isPasswordReset', 'true');
       navigate('/reset-password');
     }
@@ -43,9 +29,10 @@ export const ForgotPasswordPage = () => {
           <Input
             placeholder="E-mail"
             type="email"
-            errorText={isError}
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            onChange={handleChange}
+            name="email"
+            value={values.email}
+            required
           />
         </span>
         <span className="mb-20">

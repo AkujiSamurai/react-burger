@@ -3,48 +3,24 @@ import {
   Input,
   PasswordInput,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useResetPasswordMutation } from '@/api/api';
+import { useFormAndValidation } from '@/hooks/useFormAndValidation';
 
 import styles from './reset-password-page.module.css';
 
 export const ResetPasswordPage = () => {
   const navigate = useNavigate();
-  const [values, setValues] = useState({ password: '', token: '' });
-  const [isErrors, setErrors] = useState({ password: '', token: '' });
+  const { values, handleChange, resetForm, isValid } = useFormAndValidation();
   const [resetPassword, { isLoading, error }] = useResetPasswordMutation();
-
-  const validateForm = () => {
-    const newErrors = { password: '', token: '' };
-
-    if (values.password === '') {
-      newErrors.password = 'Обязательное поле';
-    } else if (values.password.length < 6) {
-      newErrors.password = 'Пароль слишком короткий';
-    }
-    if (values.token === '') {
-      newErrors.token = 'Обязательное поле';
-    }
-
-    setErrors(newErrors);
-
-    const notErrors = newErrors.password === '' && newErrors.token === '';
-    return notErrors;
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setValues((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: '' }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
+    if (isValid) {
       await resetPassword(values).unwrap();
       localStorage.removeItem('isPasswordReset');
+      resetForm();
       navigate('/login');
     }
   };
@@ -57,20 +33,20 @@ export const ResetPasswordPage = () => {
           <PasswordInput
             icon="ShowIcon"
             placeholder="Введите новый пароль"
-            errorText={isErrors.password}
             value={values.password}
             onChange={handleChange}
             name="password"
+            required
           />
         </span>
         <span className="mb-6">
           <Input
             placeholder="Введите код из письма"
             type="text"
-            errorText={isErrors.token}
             value={values.token}
             onChange={handleChange}
             name="token"
+            required
           />
         </span>
         <span className="mb-20">
