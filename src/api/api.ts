@@ -6,6 +6,7 @@ import { url } from '@/utils/url';
 
 import type { TIngredient } from '@/utils/types';
 
+import type { Order } from './orderApi';
 import type {
   ApiError,
   AuthResponse,
@@ -15,7 +16,8 @@ import type {
   ForgotPasswordCredentials,
   LoginCredentials,
   MessageResponse,
-  Order,
+  OrderCreate,
+  PlaceOrderCredentials,
   RefreshTokenResponse,
   RegisterCredentials,
   ResetPasswordCredentials,
@@ -37,9 +39,14 @@ export const getIngredients = async (): Promise<TIngredient[]> => {
   return response.data.data;
 };
 
-export const createOrder = async (ingredients: string[]): Promise<Order> => {
+export const createOrder = async (ingredients: string[]): Promise<OrderCreate> => {
   const response = await api.post('/orders', { ingredients });
   return response.data;
+};
+
+export const getOrder = async (id: string): Promise<Order> => {
+  const response = await api.get(`/orders/${id}`);
+  return response.data.order;
 };
 
 export const refreshToken = async (): Promise<RefreshTokenResponse> => {
@@ -166,6 +173,13 @@ export const authApi = createApi({
       }),
       transformResponse: (response: UserResponse) => response.user,
     }),
+    placeOrder: builder.mutation<MessageResponse, PlaceOrderCredentials>({
+      query: (credentials) => ({
+        url: '/orders',
+        method: 'POST',
+        data: credentials,
+      }),
+    }),
   }),
 });
 
@@ -177,4 +191,5 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useEditUserMutation,
+  usePlaceOrderMutation,
 } = authApi;

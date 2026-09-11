@@ -8,6 +8,7 @@ import { CustomScroll } from 'react-custom-scroll';
 import { useDrop } from 'react-dnd';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { usePlaceOrderMutation } from '@/api/api';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { useModal } from '@/hooks/useModal';
 import {
@@ -37,6 +38,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
   const user = useAppSelector(getUser);
   const { bun, ingredients } = useAppSelector((state) => state.burgerConstructor);
   const { isModalOpen, openModal, closeModal } = useModal();
+  const [createOrder] = usePlaceOrderMutation();
   const totalPrice = useAppSelector(selectPrice);
 
   const [{ isHoverBun }, dropBunTarget] = useDrop<
@@ -72,7 +74,6 @@ export const BurgerConstructor = (): React.JSX.Element => {
   };
 
   useEffect(() => {
-    console.log(location.state);
     if (location.state?.createOrder) {
       if (bun) {
         const ingredientsId = [bun._id, ...ingredients.map((item) => item._id), bun._id];
@@ -93,6 +94,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
     }
     if (bun) {
       const ingredientsId = [bun._id, ...ingredients.map((item) => item._id), bun._id];
+      createOrder({ ingredients: ingredientsId });
       dispatch(placeOrder(ingredientsId));
       openModal();
     }

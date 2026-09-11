@@ -1,0 +1,27 @@
+.order_page {
+  display: flex;
+  flex-direction: column;
+  width: 1240px;
+  height: calc(100vh - 208px);
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+
+.order_scroll {
+  display: flex;
+  flex-direction: column;
+  width: 844px;
+  min-height: 0;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  min-height: 0;
+  margin-top: -50px;
+}

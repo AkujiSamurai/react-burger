@@ -1,4 +1,4 @@
-export type Order = {
+export type OrderCreate = {
   name: string;
   order: {
     number: number;
@@ -58,6 +58,10 @@ export type EditUserCredentials = {
   name: string;
   email: string;
   password: string;
+};
+
+export type PlaceOrderCredentials = {
+  ingredients: string[];
 };
 
 export type ApiError = {
