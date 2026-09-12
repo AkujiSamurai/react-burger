@@ -17,7 +17,6 @@ import type {
   LoginCredentials,
   MessageResponse,
   OrderCreate,
-  PlaceOrderCredentials,
   RefreshTokenResponse,
   RegisterCredentials,
   ResetPasswordCredentials,
@@ -40,8 +39,20 @@ export const getIngredients = async (): Promise<TIngredient[]> => {
 };
 
 export const createOrder = async (ingredients: string[]): Promise<OrderCreate> => {
-  const response = await api.post('/orders', { ingredients });
-  return response.data;
+  const token = localStorage.getItem('accessToken');
+
+  const response = await fetchWithRefresh<OrderCreate>('/orders', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: token }),
+    },
+    data: {
+      ingredients,
+    },
+  });
+
+  return response;
 };
 
 export const getOrder = async (id: string): Promise<Order> => {
@@ -173,13 +184,6 @@ export const authApi = createApi({
       }),
       transformResponse: (response: UserResponse) => response.user,
     }),
-    placeOrder: builder.mutation<MessageResponse, PlaceOrderCredentials>({
-      query: (credentials) => ({
-        url: '/orders',
-        method: 'POST',
-        data: credentials,
-      }),
-    }),
   }),
 });
 
@@ -191,5 +195,4 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useEditUserMutation,
-  usePlaceOrderMutation,
 } = authApi;

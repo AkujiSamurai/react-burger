@@ -13,7 +13,9 @@ import styles from './forgot-password-page.module.css';
 export const ForgotPasswordPage = (): React.JSX.Element => {
   const navigate = useNavigate();
   const { values, handleChange, isValid, resetForm } =
-    useFormAndValidation<ForgotPasswordCredentials>();
+    useFormAndValidation<ForgotPasswordCredentials>({
+      email: '',
+    });
   const [forgotPassword, { isLoading, error }] = useForgotPasswordMutation();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {

@@ -60,10 +60,6 @@ export type EditUserCredentials = {
   password: string;
 };
 
-export type PlaceOrderCredentials = {
-  ingredients: string[];
-};
-
 export type ApiError = {
   success: boolean;
   message: string;
