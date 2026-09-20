@@ -20,7 +20,11 @@ export const RegisterPage = (): React.JSX.Element => {
   const from = location.state?.from.pathname || '/profile';
   const [register, { isLoading, error }] = useRegisterMutation();
   const { values, handleChange, resetForm, isValid } =
-    useFormAndValidation<RegisterCredentials>();
+    useFormAndValidation<RegisterCredentials>({
+      name: '',
+      email: '',
+      password: '',
+    });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();

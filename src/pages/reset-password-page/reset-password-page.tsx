@@ -17,7 +17,10 @@ import styles from './reset-password-page.module.css';
 export const ResetPasswordPage = (): React.JSX.Element => {
   const navigate = useNavigate();
   const { values, handleChange, resetForm, isValid } =
-    useFormAndValidation<ResetPasswordCredentials>();
+    useFormAndValidation<ResetPasswordCredentials>({
+      password: '',
+      token: '',
+    });
   const [resetPassword, { isLoading, error }] = useResetPasswordMutation();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {

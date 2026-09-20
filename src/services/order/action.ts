@@ -2,9 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { createOrder } from '@/api/api';
 
-import type { Order } from '@/api/types';
+import type { OrderCreate } from '@/api/types';
 
-export const placeOrder = createAsyncThunk<Order, string[]>(
+export const placeOrder = createAsyncThunk<OrderCreate, string[]>(
   'order/createOrder',
   createOrder
 );

@@ -6,6 +6,7 @@ import { url } from '@/utils/url';
 
 import type { TIngredient } from '@/utils/types';
 
+import type { Order } from './orderApi';
 import type {
   ApiError,
   AuthResponse,
@@ -15,7 +16,7 @@ import type {
   ForgotPasswordCredentials,
   LoginCredentials,
   MessageResponse,
-  Order,
+  OrderCreate,
   RefreshTokenResponse,
   RegisterCredentials,
   ResetPasswordCredentials,
@@ -37,9 +38,26 @@ export const getIngredients = async (): Promise<TIngredient[]> => {
   return response.data.data;
 };
 
-export const createOrder = async (ingredients: string[]): Promise<Order> => {
-  const response = await api.post('/orders', { ingredients });
-  return response.data;
+export const createOrder = async (ingredients: string[]): Promise<OrderCreate> => {
+  const token = localStorage.getItem('accessToken');
+
+  const response = await fetchWithRefresh<OrderCreate>('/orders', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: token }),
+    },
+    data: {
+      ingredients,
+    },
+  });
+
+  return response;
+};
+
+export const getOrder = async (id: string): Promise<Order> => {
+  const response = await api.get(`/orders/${id}`);
+  return response.data.order;
 };
 
 export const refreshToken = async (): Promise<RefreshTokenResponse> => {

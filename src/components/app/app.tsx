@@ -22,6 +22,7 @@ import { AppHeader } from '@components/app-header/app-header';
 
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { Modal } from '../modal/modal';
+import { OrderInfo } from '../order-info/order-info';
 import { ProtectedResetRoute } from '../protected-reset-route/protected-reset-route';
 import { ProtectedRoute } from '../protected-route/protected-route';
 
@@ -93,7 +94,9 @@ export const App = (): React.JSX.Element => {
               <Route index element={<ProfilePage />} />
               <Route path="orders" element={<ProfileOrderPage />} />
             </Route>
+            <Route path="/profile/orders/:id" element={<OrderInfo />} />
             <Route path="/feed" element={<FeedPage />} />
+            <Route path="/feed/:id" element={<OrderInfo />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
 
@@ -105,6 +108,34 @@ export const App = (): React.JSX.Element => {
                   <Modal onClose={handleCloseModal}>
                     <IngredientDetails />
                   </Modal>
+                }
+              />
+              <Route
+                path="/feed/:id"
+                element={
+                  <Modal
+                    onClose={() => {
+                      navigate('/feed');
+                    }}
+                  >
+                    <OrderInfo />
+                  </Modal>
+                }
+              />
+              <Route
+                path="/profile/orders/:id"
+                element={
+                  <ProtectedRoute
+                    component={
+                      <Modal
+                        onClose={() => {
+                          navigate('/profile/orders');
+                        }}
+                      >
+                        <OrderInfo />
+                      </Modal>
+                    }
+                  />
                 }
               />
             </Routes>

@@ -72,7 +72,6 @@ export const BurgerConstructor = (): React.JSX.Element => {
   };
 
   useEffect(() => {
-    console.log(location.state);
     if (location.state?.createOrder) {
       if (bun) {
         const ingredientsId = [bun._id, ...ingredients.map((item) => item._id), bun._id];

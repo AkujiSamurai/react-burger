@@ -1,4 +1,4 @@
-export type Order = {
+export type OrderCreate = {
   name: string;
   order: {
     number: number;

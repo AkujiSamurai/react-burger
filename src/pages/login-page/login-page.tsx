@@ -19,7 +19,10 @@ export const LoginPage = (): React.JSX.Element => {
   const location = useLocation();
   const from = location.state?.from.pathname || '/profile';
   const { values, handleChange, isValid, resetForm } =
-    useFormAndValidation<LoginCredentials>();
+    useFormAndValidation<LoginCredentials>({
+      email: '',
+      password: '',
+    });
   const [login, { isLoading, error }] = useLoginMutation();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
