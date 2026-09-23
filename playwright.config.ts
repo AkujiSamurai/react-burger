@@ -69,7 +69,11 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
-
+  webServer: {
+    command: 'npm run dev',
+    url: 'http://localhost:5173',
+    reuseExistingServer: true,
+  },
   /* Run your local dev server before starting the tests */
   // webServer: {
   //   command: 'npm run start',

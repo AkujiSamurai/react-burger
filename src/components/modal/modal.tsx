@@ -34,8 +34,12 @@ export const Modal = ({ children, onClose }: ModalProps): React.JSX.Element | nu
   return createPortal(
     <>
       <ModalOverlay onClose={onClose} />
-      <div className={styles.modal}>
-        <button className={`${styles.close_button}`} onClick={onClose}>
+      <div data-testid="modal" className={styles.modal}>
+        <button
+          data-testid="close"
+          className={`${styles.close_button}`}
+          onClick={onClose}
+        >
           <CloseIcon type="primary" />
         </button>
 
