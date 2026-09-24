@@ -6,7 +6,7 @@ type IngredientSelected = {
   ingredientSelected: TIngredient | null;
 };
 
-const initialState: IngredientSelected = {
+export const initialState: IngredientSelected = {
   ingredientSelected: null,
 };
 

@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   clearIngredientSelected,
   ingredientSelectedSlice,
+  initialState,
   setIngredientSelected,
 } from './slice';
 
@@ -26,7 +27,7 @@ describe('ingredientSelectedSlice', () => {
   it('Должен возвращать начальное состояние', () => {
     const result = reducer(undefined, { type: '' });
 
-    expect(result).toEqual({ ingredientSelected: null });
+    expect(result).toEqual(initialState);
   });
   it('Должен добавиться ингредиент', () => {
     const result = ingredientSelectedSlice.reducer(
@@ -39,6 +40,6 @@ describe('ingredientSelectedSlice', () => {
   it('Ингредиент должен удалиться', () => {
     const result = reducer({ ingredientSelected: state }, clearIngredientSelected());
 
-    expect(result).toEqual({ ingredientSelected: null });
+    expect(result).toEqual(initialState);
   });
 });

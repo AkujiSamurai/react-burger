@@ -10,7 +10,7 @@ type OrderState = {
   isError: string | null;
 };
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
   name: '',
   orderNumber: null,
   success: null,

@@ -21,7 +21,7 @@ type MoveIndex = {
   toIndex: number;
 };
 
-const initialState: Order = {
+export const initialState: Order = {
   bun: null,
   ingredients: [],
 };

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { loadIngredients } from './actions';
-import { ingredientsSlice, selectIngredientCount } from './slice';
+import { ingredientsSlice, initialState, selectIngredientCount } from './slice';
 
 import type { RootState } from '@/services/store';
 
@@ -24,11 +24,7 @@ const ingredient = {
 describe('ingredientsSlice', () => {
   it('Должен вернуть начальное состояние', () => {
     const result = reducer(undefined, { type: '' });
-    expect(result).toEqual({
-      ingredients: [],
-      isLoading: true,
-      isError: null,
-    });
+    expect(result).toEqual(initialState);
   });
   it('pending -> isLoading=true, isError сбрасывается', () => {
     const state = { ingredients: [], isLoading: false, isError: 'Ошибка' };

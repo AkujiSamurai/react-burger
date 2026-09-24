@@ -1,6 +1,6 @@
 import { expect, it, describe } from 'vitest';
 
-import { setAuthChecked, userSlice } from './slice';
+import { initialState, setAuthChecked, userSlice } from './slice';
 
 const reducer = userSlice.reducer;
 
@@ -13,10 +13,7 @@ describe('userSlice', () => {
   it('Должен вернуть начальное состояние', () => {
     const result = reducer(undefined, { type: '' });
 
-    expect(result).toEqual({
-      user: null,
-      isAuthChecked: false,
-    });
+    expect(result).toEqual(initialState);
   });
   it('Должен установить isAuthChecked в true', () => {
     const result = reducer(undefined, setAuthChecked());

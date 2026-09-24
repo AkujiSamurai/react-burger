@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { placeOrder } from './action';
-import { orderSlice } from './slice';
+import { initialState, orderSlice } from './slice';
 
 const reducer = orderSlice.reducer;
 
@@ -9,13 +9,7 @@ describe('orderSlice', () => {
   it('Должен вернуть начальное состояние', () => {
     const result = reducer(undefined, { type: '' });
 
-    expect(result).toEqual({
-      name: '',
-      orderNumber: null,
-      success: null,
-      isLoading: false,
-      isError: null,
-    });
+    expect(result).toEqual(initialState);
   });
   it('pending -> isLoading=true, isError сбрасывается', () => {
     const state = {

@@ -9,6 +9,7 @@ import {
   moveIngredient,
   clearConstructor,
   selectPrice,
+  initialState,
 } from './slice';
 
 import type { RootState } from '@/services/store';
@@ -71,10 +72,7 @@ const sauce = {
 describe('burgerConstructorSlice', () => {
   it('Должен возвращать начальное состояние', () => {
     const result = reducer(undefined, { type: '' });
-    expect(result).toEqual({
-      bun: null,
-      ingredients: [],
-    });
+    expect(result).toEqual(initialState);
   });
   it('Должна добавиться булка', () => {
     const result = reducer(undefined, addBun(bun));
@@ -98,7 +96,7 @@ describe('burgerConstructorSlice', () => {
     };
 
     const result = reducer(state, deleteIngredient('id'));
-    expect(result).toEqual({ bun: null, ingredients: [] });
+    expect(result).toEqual(initialState);
   });
   it('Ингредиенты должны поменяться местами', () => {
     const state = {
@@ -143,7 +141,7 @@ describe('burgerConstructorSlice', () => {
     };
 
     const result = reducer(state, clearConstructor());
-    expect(result).toEqual({ bun: null, ingredients: [] });
+    expect(result).toEqual(initialState);
   });
   it('Должен возвращать цену', () => {
     const state = {
