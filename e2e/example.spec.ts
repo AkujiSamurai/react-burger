@@ -2,6 +2,10 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Тесты для страницы "Конструктор"', () => {
   test('example', async ({ page }) => {
+    await page.routeFromHAR('./e2e/hars/ingredients.har', {
+      url: '**/ingredients',
+      update: false,
+    });
     await page.goto('/');
     await expect(page.getByText('Соберите бургер')).toBeVisible({ timeout: 20000 });
   });
