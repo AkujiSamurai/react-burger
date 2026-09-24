@@ -111,7 +111,11 @@ export const BurgerConstructor = (): React.JSX.Element => {
 
   return (
     <section className={styles.burger_constructor}>
-      <div className={`${styles.constructor_wrapper} mb-10`} ref={setBunDropTarget}>
+      <div
+        data-testid="bunDrop"
+        className={`${styles.constructor_wrapper} mb-10`}
+        ref={setBunDropTarget}
+      >
         <div className="ml-8">
           {!bun ? (
             <div
@@ -130,7 +134,11 @@ export const BurgerConstructor = (): React.JSX.Element => {
           )}
         </div>
 
-        <ul className={styles.scroll_container} ref={setMainDropTarget}>
+        <ul
+          data-testid="mainDrop"
+          className={styles.scroll_container}
+          ref={setMainDropTarget}
+        >
           <CustomScroll flex="1">
             {ingredients.length > 0 ? (
               ingredients.map((item, index) => (
